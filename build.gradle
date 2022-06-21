@@ -4,3 +4,44 @@
  * This is a general purpose Gradle build.
  * Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.4.2/samples
  */
+plugins { 
+	id 'java-library'
+	id 'eclipse'
+	id 'maven-publish'
+	
+}
+
+publishing {
+
+	repositories {
+
+		maven {
+
+			name = "GitHubPackages"	
+			url = uri("https://maven.pkg.github.com/AntwanV/Junio2022")
+			credentials {
+			
+			//las propiedades gpr.user y gpr.key están configuradas en gradle.properties en el raiz del proyecto, y se añade a .gitignore para que no se suban
+			
+			//O bien configuro las variables de entorno GITHUB_LOGIN y GITHUB_PACKAGES
+			
+			username = "AntwanV"//project.findProperty("gpr.user") ?: System.getenv("GITHUB_LOGIN")
+			
+			password = "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"//project.findProperty("gpr.key") ?: System.getenv("GITHUB_PACKAGES")
+
+			}
+
+		}
+		
+	 publications {
+        maven(MavenPublication) {
+            groupId = 'org.gradle.sample'
+            artifactId = 'library'
+            version = '1.1'
+
+            from components.java
+        }
+    }
+
+}
+}
